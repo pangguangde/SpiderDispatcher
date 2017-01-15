@@ -33,7 +33,7 @@
         </thead>
         <tbody>
         {% for spider_status in data['pending'] %}
-            <tr align="center">
+            <tr align="center" id="{{ spider_status['id'] }}_tr">
                 <td>{{ spider_status['id'] }}</td>
                 <td>{{ spider_status['spider'] }}</td>
                 <td>
@@ -65,7 +65,7 @@
         </thead>
         <tbody>
         {% for spider_status in data['running'] %}
-            <tr align="center">
+            <tr align="center" id="{{ spider_status['id'] }}_tr">
                 <td>{{ spider_status['id'] }}</td>
                 <td>{{ spider_status['spider'] }}</td>
                 <td>{{ spider_status['start_time'] }}</td>

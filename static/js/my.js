@@ -7,7 +7,7 @@ function show_notify(msg_type, msg, delay) {
         align: 'center',
         width: 'auto',
         delay: delay,
-        offset: {from: 'top', amount: 5},
+        offset: {from: 'top', amount: 5}
     });
 }
 
@@ -92,6 +92,7 @@ function pause_schedule(sche_id, spider_name) {
                 element.setAttribute('onclick', 'resume_schedule(\'' + sche_id + '\', \'' + spider_name + '\')');
                 element.setAttribute('class', 'btn btn-success');
                 element.value = 'resume';
+                $('#'+sche_id+'_status').text('paused');
                 show_notify('success', spider_name + '(' + sche_id + ')' + ': was paused!', 1000);
             } else {
                 show_notify('danger', spider_name + '(' + sche_id + ')' + ': pause failure!', 1500);
@@ -112,6 +113,7 @@ function resume_schedule(sche_id, spider_name) {
                 element.setAttribute('onclick', 'pause_schedule(\'' + sche_id + '\', \'' + spider_name + '\')');
                 element.setAttribute('class', 'btn btn-warning');
                 element.value = 'pause';
+                $('#'+sche_id+'_status').text('running');
                 show_notify('success', spider_name + '(' + sche_id + ')' + ': was paused!', 1000);
             } else {
                 show_notify('danger', spider_name + '(' + sche_id + ')' + ': pause failure!', 1500);
@@ -128,6 +130,7 @@ function del_schedule(sche_id, spider_name) {
         url: '/del_schedule?sche_id=' + sche_id,
         success: function (data) {
             if (data == 'success') {
+                document.getElementById(sche_id+'_tr').setAttribute('style', 'display:None');
                 show_notify('success', spider_name + '(' + sche_id + ')' + ': was removed!', 1000);
             } else {
                 show_notify('danger', spider_name + '(' + sche_id + ')' + ': remove failure!', 1500);

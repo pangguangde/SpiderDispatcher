@@ -43,12 +43,12 @@
         </tr>
         </thead>
         {% for sche in sche_list %}
-            <tr align="center">
+            <tr align="center" id="{{ sche[0] }}_tr">
                 <td>{{ sche[0] }}</td>
                 <td>{{ sche[1] }}</td>
                 <td>{{ sche[2] }} min</td>
                 <td>{{ sche[3] }}</td>
-                <td>{{ status_map[sche[4]] }}</td>
+                <td id="{{ sche[0] }}_status">{{ status_map[sche[4]] }}</td>
                 <td>
                     <div align="center">
                         <input onclick="{{ operation_map[sche[4]][0] }}_schedule('{{ sche[0] }}', '{{ sche[1] }}')"
