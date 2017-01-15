@@ -1,6 +1,7 @@
 Abstract
 ===
-`SpiderDispatcher` is a spider manage system base on `scrapyd` and `APScheduler`, 
+`SpiderDispatcher` is a visualized lightweight spider manage system base on `scrapyd` and `APScheduler`, 
+easy to install and use, low resource occupancy. It's an original version, I'll optimizing it later ╮(╯▽╰)╭
 
 Require
 ---
