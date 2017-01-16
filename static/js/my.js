@@ -45,7 +45,13 @@ function run_spider(spider_name) {
     });
 }
 
-document.getElementById("header").innerHTML = "<style> \.slideShine {width: 100%;font-size: 60px;text-align: left;background: #636060 -webkit-linear-gradient(left, #636060, #fff) 0 0 no-repeat;-webkit-background-size: 120px;-webkit-background-clip: text;-webkit-text-fill-color: rgba(0,0,0,0.2);-webkit-animation: slideShine 4s infinite;}@-webkit-keyframes slideShine {0% {background-position: 0 0;}100% {background-position: 100% 100%;}}</style><div style=\"background: rgb(132, 31, 11);\"><h1 class=\"slideShine\" style=\"margin-top: 0;margin-bottom: 0; padding-top:10px; padding-bottom:10px;box-shadow:1px 1px 5px #523838;\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SpiderDispatcher</h1></div>";
+document.getElementById("header").innerHTML =
+    "<div style=\"background: rgb(132, 31, 11);box-shadow:1px 1px 5px #523838;\">" +
+        "<h1 class=\"slideShine\" style=\"margin-top: 0;margin-bottom: 0; padding-top:10px; padding-bottom:10px;\">" +
+            "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SpiderDispatcher" +
+        "</h1>" +
+    "<a style='float: right;margin-top: -20px;text-decoration: none' class='slideShine_b' href='https://github.com/pangguangde/SpiderDispatcher'>Fork me on Github - SpiderDispatcher</a>" +
+    "</div>";
 
 // function show_notify(msg_type, msg, delay) {
 //     $.bootstrapGrowl(msg, {
