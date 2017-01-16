@@ -3,7 +3,7 @@ SpiderDispatcher
 `SpiderDispatcher` is a visualized lightweight spider manage system base on `scrapyd` and `APScheduler`, 
 easy to install and use, low resource occupancy. It's an original version, I'll optimizing it later ╮(╯▽╰)╭
 
-Require
+REQUIREMENT
 ---
 
 ```
@@ -11,7 +11,7 @@ Python 2.7.x
 MySQL >= 5.6
 ```
 
-Install
+INSTALL
 ---
 
 ```
@@ -21,7 +21,7 @@ pip install -r requirements.txt
 ```
 
 
-Configure
+CONFIGURE
 ---
 **Edit** `SpiderDispatcher/settings.py` according to your own situation.
 
@@ -29,7 +29,7 @@ check out database `test` in your MySQL, create it if not existed.
 
 **notice** how to judge `IS_DEV` is important  ╮(╯▽╰)╭
 
-Run
+RUN
 ---
 
 ```
@@ -40,7 +40,7 @@ python SpiderDispatcher.py
 open url http://0.0.0.0:4399/
 ```
 
-shortcuts
+SHORTCUTS
 ---
 **Index:**
 ![](shortcuts/index.png)
@@ -51,7 +51,7 @@ shortcuts
 **List Schedule:**
 ![](shortcuts/list_schedule.png)
 
-Other
+OTHER
 =====
 **Any questions or suggestions you can contact me via email** `muyuguangchen@gmail.com` **or just remind me in Issues, 
 THX ╮(╯▽╰)╭**
