@@ -47,9 +47,9 @@ function run_spider(spider_name) {
 
 document.getElementById("header").innerHTML =
     "<div style=\"background: rgb(132, 31, 11);box-shadow:1px 1px 5px #523838;\">" +
-        "<h1 class=\"slideShine\" style=\"margin-top: 0;margin-bottom: 0; padding-top:10px; padding-bottom:10px;\">" +
+        "<p class=\"slideShine\">" +
             "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SpiderDispatcher" +
-        "</h1>" +
+        "</p>" +
     "<a style='float: right;margin-top: -20px;text-decoration: none' class='slideShine_b' href='https://github.com/pangguangde/SpiderDispatcher'>Fork me on Github - SpiderDispatcher</a>" +
     "</div>";
 
