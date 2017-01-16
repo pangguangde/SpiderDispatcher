@@ -55,6 +55,7 @@
 }
 
 .slideShine_b {
+    width: 30%;
     text-align: right;
     background: #636060 -webkit-linear-gradient(left, #636060, #e6ec7e, #fff, #fff, #e6ec7e, #636060) 0 0 no-repeat;
     -webkit-background-size: 60px;

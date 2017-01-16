@@ -50,7 +50,7 @@ document.getElementById("header").innerHTML =
         "<p class=\"slideShine\">" +
             "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SpiderDispatcher" +
         "</p>" +
-    "<a style='float: right;margin-top: -20px;text-decoration: none' class='slideShine_b' href='https://github.com/pangguangde/SpiderDispatcher'>Fork me on Github - SpiderDispatcher</a>" +
+    "<a style='float: right;margin-top: -20px;text-decoration: none' class='slideShine_b' href='https://github.com/pangguangde/SpiderDispatcher'>Fork me on Github - SpiderDispatcher&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>" +
     "</div>";
 
 // function show_notify(msg_type, msg, delay) {
