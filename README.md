@@ -1,7 +1,10 @@
 SpiderDispatcher
 ===
-`SpiderDispatcher` is a visualized lightweight spider manage system base on `scrapyd` and `APScheduler`, 
-easy to install and use, low resource occupancy. It's an original version, I'll optimizing it later ╮(╯▽╰)╭
+`SpiderDispatcher` 是一个轻量级的可视化爬虫管理系统，负责爬虫的调度和管理，`scrapyd` and `APScheduler` 框架设计，
+简单易用，极低的系统资源占用率。目前只是一个初级的版本，鄙人还会继续优化的 ╮(╯▽╰)╭
+<br></br>
+`SpiderDispatcher` is a visualized lightweight spider manage system designed base on `scrapyd` and `APScheduler`, 
+easy to install and use, low resource occupancy. It's an original version now, I'll optimizing it later ╮(╯▽╰)╭
 
 REQUIREMENT
 ---
