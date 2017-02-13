@@ -120,9 +120,9 @@ function resume_schedule(sche_id, spider_name) {
                 element.setAttribute('class', 'btn btn-warning');
                 element.value = 'pause';
                 $('#'+sche_id+'_status').text('running');
-                show_notify('success', spider_name + '(' + sche_id + ')' + ': was paused!', 1000);
+                show_notify('success', spider_name + '(' + sche_id + ')' + ': was resumed!', 1000);
             } else {
-                show_notify('danger', spider_name + '(' + sche_id + ')' + ': pause failure!', 1500);
+                show_notify('danger', spider_name + '(' + sche_id + ')' + ': resume failure!', 1500);
             }
         },
         error: function () {

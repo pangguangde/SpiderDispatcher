@@ -14,6 +14,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from flask import request
 
 from settings import *
+from util import send_email
 
 __author__ = 'muyuguangchen'
 
@@ -190,6 +191,28 @@ def connect_db():
                            charset="utf8")
     cur = conn.cursor()
     return conn, cur
+
+def scan_job_list():
+    response = urllib2.urlopen('%s/listjobs.json?project=NewsSpider' % SCRAPYD_DOMAIN).read()
+    data = json.loads(response)
+    pending_len = len(data['pending'])
+    running_len = len(data['running'])
+    if pending_len >= 1 and running_len == 2:
+        send_email('pangguangde@souche.com', 'che168车辆爬虫监控',
+                   '<h1>scrapyd 爬虫运行阻塞或状态异常</h1>'
+                   '<table border=1>'
+                   '<tbody>'
+                   '<tr>'
+                   '<td>Pending</td>'
+                   '<td>Running</td>'
+                   '</tr>'
+                   '<tr>'
+                   '<td>%s</td>'
+                   '<td>%s</td>'
+                   '</tr>'
+                   '</table>'
+                   '<p>%s</p>' % (pending_len, running_len, datetime.datetime.now()))
+    logger.info('writing job list scan result: {pending: %s, running: %s}' % (pending_len, running_len))
 
 
 # it is also possible to enable the API directly
