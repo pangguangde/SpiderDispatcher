@@ -193,7 +193,7 @@ def connect_db():
     return conn, cur
 
 def scan_job_list():
-    response = urllib2.urlopen('%s/listjobs.json?project=NewsSpider' % SCRAPYD_DOMAIN).read()
+    response = urllib2.urlopen('%s/listjobs.json?project=%s' % (SCRAPYD_DOMAIN, PROJECT_NAME)).read()
     data = json.loads(response)
     pending_len = len(data['pending'])
     running_len = len(data['running'])
