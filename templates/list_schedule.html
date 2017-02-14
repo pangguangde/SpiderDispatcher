@@ -32,6 +32,9 @@
                 <div align="center" style="color: rgba(165, 42, 42, 0.7);font-size: 1.5em"> spider name</div>
             </th>
             <th>
+                <div align="center" style="color: rgba(165, 42, 42, 0.7);font-size: 1.5em"> params</div>
+            </th>
+            <th>
                 <div align="center" style="color: rgba(165, 42, 42, 0.7);font-size: 1.5em"> interval</div>
             </th>
             <th>
@@ -44,7 +47,7 @@
                 <div align="center" style="color: rgba(165, 42, 42, 0.7);font-size: 1.5em"> pause/resume</div>
             </th>
             <th>
-                <div align="center" style="color: #d62d2d;font-size: 1.5em"> deleted</div>
+                <div align="center" style="color: #d62d2d;font-size: 1.5em"> delete</div>
             </th>
         </tr>
         </thead>
@@ -52,6 +55,7 @@
             <tr align="center" id="{{ sche[0] }}_tr">
                 <td>{{ sche[0] }}</td>
                 <td>{{ sche[1] }}</td>
+                <td>{{ sche[6] }}</td>
                 <td>{{ sche[2] }} min</td>
                 <td>{{ sche[3] }}</td>
                 <td id="{{ sche[0] }}_status">{{ status_map[sche[4]] }}</td>

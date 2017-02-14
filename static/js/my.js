@@ -14,8 +14,9 @@ function show_notify(msg_type, msg, delay) {
 function add_scheduler(spider_name) {
     var start_time = document.getElementById(spider_name + "_start").value;
     var interval = document.getElementById(spider_name + "_interval").value;
+    var params = document.getElementById(spider_name + "_params").value;
     $.ajax({
-        url: '/add_schedule?spider_name=' + spider_name + '&start_time=' + start_time + '&interval=' + interval,
+        url: '/add_schedule?spider_name=' + spider_name + '&start_time=' + start_time + '&interval=' + interval + '&params=' + params,
         success: function (data) {
             if (data == 'success') {
                 show_notify('success', spider_name + ': add schedule success!', 1000);
@@ -30,8 +31,9 @@ function add_scheduler(spider_name) {
 }
 
 function run_spider(spider_name) {
+    var params = document.getElementById(spider_name + "_params").value;
     $.ajax({
-        url: '/add_job/' + spider_name,
+        url: '/add_job?spider_name=' + spider_name + "&params=" + params,
         success: function (data) {
             if (data == 'success') {
                 show_notify('success', spider_name + ': is running now!', 1000);

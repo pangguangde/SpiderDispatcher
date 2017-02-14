@@ -34,22 +34,31 @@ ch.setFormatter(fmt=fmter)
 logger.setLevel(logging.DEBUG)
 logger.addHandler(hdlr=ch)
 
+db = SqliteDatabase('ScheduleInfo.db')
+db.create_table(ScheduleInfo, safe=True)
 
-db = SqliteDatabase('schedule_info.db')
 
+@app.route('/add_job')
+def add_job():
+    spider_name = request.args['spider_name']
+    params = request.args['params']
+    resp = run_spider(spider_name, params)
+    if resp['status'] == 'ok':
+        return 'success'
+    else:
+        return 'failure'
 
-@app.route('/add_job/<spider_name>')
-def add_job(spider_name):
-    req = urllib2.Request('%s/schedule.json' % SCRAPYD_DOMAIN)
+def run_spider(spider_name, params):
+    if params:
+        req = urllib2.Request('%s/schedule.json?%s' % (SCRAPYD_DOMAIN, params.replace(',', '&')))
+    else:
+        req = urllib2.Request('%s/schedule.json' % SCRAPYD_DOMAIN)
     data = urllib.urlencode({'project': PROJECT_NAME, 'spider': spider_name})
     # enable cookie
     opener = urllib2.build_opener(urllib2.HTTPCookieProcessor())
     response = opener.open(req, data)
     resp = json.loads(response.read())
-    if resp['status'] == 'ok':
-        return 'success'
-    else:
-        return 'failure'
+    return resp
 
 
 @app.route('/cancel/<job_id>')
@@ -107,7 +116,7 @@ def list_schedule():
     schedules = ScheduleInfo.select()
     sche_list = []
     for sche in schedules:
-        sche_list.append((sche.id, sche.spider_name, sche.min_interval, sche.first_run_time, sche.status, sche.created_time))
+        sche_list.append((sche.id, sche.spider_name, sche.min_interval, sche.first_run_time, sche.status, sche.created_time, sche.params))
 
     return render_template('list_schedule.html', sche_list=sche_list, status_map=status_map,
                            operation_map=operation_map)
@@ -121,7 +130,8 @@ def add_schedule():
         si.min_interval = int(request.args['interval'])
         si.first_run_time = request.args['start_time']
         si.id = str(uuid.uuid1())
-        scheduler.add_job(add_job, 'interval', minutes=si.min_interval, id=si.id, args=(si.spider_name,), next_run_time=si.first_run_time)
+        si.params = request.args['params']
+        scheduler.add_job(run_spider, 'interval', minutes=si.min_interval, id=si.id, args=(si.spider_name, si.params,), next_run_time=si.first_run_time)
         try:
             si.save(force_insert=True)
         except:
@@ -198,7 +208,7 @@ def scan_job_list():
 scheduler.start()
 sche_infos = ScheduleInfo.select()
 for sche_info in sche_infos:
-    scheduler.add_job(add_job, 'interval', minutes=sche_info.min_interval, id=sche_info.id, args=(sche_info.spider_name,), next_run_time=sche_info.first_run_time)
+    scheduler.add_job(run_spider, 'interval', minutes=sche_info.min_interval, id=sche_info.id, args=(sche_info.spider_name, sche_info.params, ), next_run_time=sche_info.first_run_time)
     if sche_info.status == 1:
         scheduler.pause_job(sche_info.id)
 

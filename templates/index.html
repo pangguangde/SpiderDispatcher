@@ -31,6 +31,9 @@
                 <div align="center" style="color: rgba(165, 42, 42, 0.7); font-size: 1.5em;">spider name</div>
             </th>
             <th>
+                <div align="center" style="color: rgba(165, 42, 42, 0.7); font-size: 1.5em;">params</div>
+            </th>
+            <th>
                 <div align="center" style="color: rgba(165, 42, 42, 0.7); font-size: 1.5em;">single job</div>
             </th>
             <th>
@@ -45,6 +48,10 @@
             <tr>
                 <td>
                     <div align="center">{{ spider_name }}</div>
+                </td>
+                <td>
+                    <input type="text" id="{{ spider_name }}_params" placeholder="foo1=bar1,foo2=bar2..." class="form-control"
+                               style="width: 80%; margin-left: 10px;">
                 </td>
                 <td>
                     <div align="center">

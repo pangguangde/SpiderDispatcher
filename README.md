@@ -26,6 +26,8 @@ pip install -r requirements.txt
 
 CONFIGURE
 ---
+run `python ScheduleInfo.py` to create database
+
 **Edit** `SpiderDispatcher/settings.py` according to your own situation.
 
 

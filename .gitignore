@@ -1,4 +1,4 @@
 .idea/
 *.pyc
-schedule_info.db
+ScheduleInfo.db
 dbs_data.tmp
