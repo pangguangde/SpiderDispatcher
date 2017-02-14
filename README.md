@@ -28,9 +28,6 @@ CONFIGURE
 ---
 **Edit** `SpiderDispatcher/settings.py` according to your own situation.
 
-check out database `test` in your MySQL, create it if not existed.
-
-**notice** how to judge `IS_DEV` is important  ╮(╯▽╰)╭
 
 RUN
 ---

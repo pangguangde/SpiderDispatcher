@@ -7,12 +7,13 @@ import urllib2
 import datetime
 import uuid
 
-import MySQLdb
 import logging
 from flask import Flask, render_template
 from apscheduler.schedulers.background import BackgroundScheduler
 from flask import request
+from peewee import SqliteDatabase
 
+from ScheduleInfo import ScheduleInfo
 from settings import *
 from util import send_email
 
@@ -32,6 +33,9 @@ fmter = logging.Formatter('%(asctime)s [%(name)s] %(levelname)s: %(message)s')
 ch.setFormatter(fmt=fmter)
 logger.setLevel(logging.DEBUG)
 logger.addHandler(hdlr=ch)
+
+
+db = SqliteDatabase('schedule_info.db')
 
 
 @app.route('/add_job/<spider_name>')
@@ -92,12 +96,7 @@ def del_schedule():
     try:
         sche_id = request.args['sche_id']
         scheduler.remove_job(sche_id)
-
-        conn, cur = connect_db()
-        cur.execute("delete from schedule_list where id='%s'" % sche_id)
-        conn.commit()
-        cur.close()
-        conn.close()
+        ScheduleInfo.delete().where(ScheduleInfo.id == sche_id).execute()
         return 'success'
     except:
         return 'failure'
@@ -105,13 +104,10 @@ def del_schedule():
 
 @app.route('/list_schedule')
 def list_schedule():
-    conn, cur = connect_db()
-    cur.execute("select * from schedule_list")
-    result = cur.fetchall()
-    sche_list = list(result)
-    sche_list.sort(key=lambda d: d[3].strftime('%M%S'), reverse=True)
-    cur.close()
-    conn.close()
+    schedules = ScheduleInfo.select()
+    sche_list = []
+    for sche in schedules:
+        sche_list.append((sche.id, sche.spider_name, sche.min_interval, sche.first_run_time, sche.status, sche.created_time))
 
     return render_template('list_schedule.html', sche_list=sche_list, status_map=status_map,
                            operation_map=operation_map)
@@ -120,19 +116,16 @@ def list_schedule():
 @app.route('/add_schedule')
 def add_schedule():
     try:
-        spider_name = request.args['spider_name']
-        interval = int(request.args['interval'])
-        start_time = request.args['start_time']
-        sche_id = str(uuid.uuid1())
-        scheduler.add_job(add_job, 'interval', minutes=interval, id=sche_id, args=(spider_name,),
-                          next_run_time=start_time)
-        conn, cur = connect_db()
-        cur.execute(
-            "insert into schedule_list(id, spider_name, min_interval, first_run_time, status) VALUES ('%s','%s','%s','%s','%s')" % (
-            sche_id, spider_name, str(interval), start_time, '0'))
-        conn.commit()
-        cur.close()
-        conn.close()
+        si = ScheduleInfo()
+        si.spider_name = request.args['spider_name']
+        si.min_interval = int(request.args['interval'])
+        si.first_run_time = request.args['start_time']
+        si.id = str(uuid.uuid1())
+        scheduler.add_job(add_job, 'interval', minutes=si.min_interval, id=si.id, args=(si.spider_name,), next_run_time=si.first_run_time)
+        try:
+            si.save(force_insert=True)
+        except:
+            si.save()
         return 'success'
     except:
         return 'failure'
@@ -143,12 +136,7 @@ def pause_schedule():
     try:
         sche_id = request.args['sche_id']
         scheduler.pause_job(sche_id)
-
-        conn, cur = connect_db()
-        cur.execute("update schedule_list set status=%s where id='%s'" % (1, sche_id))
-        conn.commit()
-        cur.close()
-        conn.close()
+        ScheduleInfo.update(status=1).where(ScheduleInfo.id == sche_id).execute()
         return 'success'
     except:
         return 'failure'
@@ -159,12 +147,7 @@ def resume_schedule():
     try:
         sche_id = request.args['sche_id']
         scheduler.resume_job(sche_id)
-
-        conn, cur = connect_db()
-        cur.execute("update schedule_list set status=%s where id='%s'" % (0, sche_id))
-        conn.commit()
-        cur.close()
-        conn.close()
+        ScheduleInfo.update(status=0).where(ScheduleInfo.id == sche_id).execute()
         return 'success'
     except:
         return 'failure'
@@ -185,12 +168,6 @@ def schedule_stop():
 def job1(a):
     logger.info(datetime.datetime.now(), a)
 
-
-def connect_db():
-    conn = MySQLdb.connect(host=MYSQL_HOST, port=MYSQL_PORT, user=MYSQL_USER, passwd=MYSQL_PASSWD, db=MYSQL_DB,
-                           charset="utf8")
-    cur = conn.cursor()
-    return conn, cur
 
 def scan_job_list():
     response = urllib2.urlopen('%s/listjobs.json?project=%s' % (SCRAPYD_DOMAIN, PROJECT_NAME)).read()
@@ -219,24 +196,10 @@ def scan_job_list():
 # scheduler.api_enabled = True
 
 scheduler.start()
-conn, cur = connect_db()
-cur.execute("CREATE TABLE if not EXISTS schedule_list("
-            "`id` char(64) NOT NULL DEFAULT '',"
-            "`spider_name` varchar(128) NOT NULL DEFAULT '',"
-            "`min_interval` int(11) NOT NULL COMMENT 'measured in minutes',"
-            "`first_run_time` datetime DEFAULT CURRENT_TIMESTAMP,"
-            "`status` int(11) DEFAULT '0' COMMENT '0/1/2 means running/pause/finished',"
-            "`created_time` datetime DEFAULT CURRENT_TIMESTAMP,"
-            "PRIMARY KEY (`id`)"
-            ") ENGINE=InnoDB DEFAULT CHARSET=utf8;")
-conn.commit()
-cur.execute("select * from schedule_list")
-result = cur.fetchall()
-cur.close()
-conn.close()
-for res in result:
-    scheduler.add_job(add_job, 'interval', minutes=res[2], id=res[0], args=(res[1],), next_run_time=res[3])
-    if res[4] == 1:
-        scheduler.pause_job(res[0])
+sche_infos = ScheduleInfo.select()
+for sche_info in sche_infos:
+    scheduler.add_job(add_job, 'interval', minutes=sche_info.min_interval, id=sche_info.id, args=(sche_info.spider_name,), next_run_time=sche_info.first_run_time)
+    if sche_info.status == 1:
+        scheduler.pause_job(sche_info.id)
 
 app.run(host='0.0.0.0', port=4399, debug=IS_DEV)
