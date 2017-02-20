@@ -11,6 +11,8 @@ import traceback
 
 import datetime
 
+from settings import MAIL_SENDER, MAIL_PSWD
+
 
 class SmtpSendMail:
     def __init__(self, config):
@@ -81,8 +83,8 @@ class SmtpSendMail:
 mailfrom = {
     "host"    : "smtp.qq.com",
     "port"    : 465,
-    "sender"  : "1569382204@qq.com",
-    "password": "xppzaixxcpqthdhd",
+    "sender"  : MAIL_SENDER,
+    "password": MAIL_PSWD,
     "timeout" : 10,
     "SSL"     : True
 }
@@ -99,17 +101,4 @@ def send_email(receiver, subject, msg):
         print '发送成功！'
 
 if __name__ == '__main__':
-    send_email('804348869@qq.com', '监控警报',
-               '<h1>scrapyd 爬虫列表过长阻塞</h1>'
-               '<table border=1>'
-               '<tbody>'
-               '<tr>'
-               '<td>Pending</td>'
-               '<td>Running</td>'
-               '</tr>'
-               '<tr>'
-               '<td>%s</td>'
-               '<td>%s</td>'
-               '</tr>'
-               '</table>'
-               '<p>%s</p>' % (5, 10, datetime.datetime.now()))
+    pass

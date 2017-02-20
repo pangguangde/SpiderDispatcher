@@ -10,3 +10,6 @@ PROJECT_NAME = 'default'
 
 SCRAPYD_DOMAIN = 'http://127.0.0.1:6800'
 
+MAIL_SENDER = "XXXXXXX@qq.com"
+MAIL_PSWD = "*******"
+MAIL_RECIEVER = "XXXXXXXX@qq.com"

@@ -16,6 +16,7 @@ from peewee import SqliteDatabase
 from ScheduleInfo import ScheduleInfo
 from settings import *
 from util import send_email
+import MySQLdb
 
 __author__ = 'muyuguangchen'
 
@@ -185,8 +186,8 @@ def scan_job_list():
     pending_len = len(data['pending'])
     running_len = len(data['running'])
     if pending_len >= 1 and running_len == 2:
-        send_email('pangguangde@souche.com', 'che168车辆爬虫监控',
-                   '<h1>scrapyd 爬虫运行阻塞或状态异常</h1>'
+        send_email(MAIL_RECIEVER, 'Spider Monitor Alert',
+                   '<h1>scrapyd seems have some trouble</h1>'
                    '<table border=1>'
                    '<tbody>'
                    '<tr>'
